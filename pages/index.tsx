@@ -69,7 +69,7 @@ export default function Home() {
         <section className="relative min-h-[calc(100vh-5rem)] flex items-center overflow-hidden">
           <div className="absolute inset-0">
             <img
-              src="/pics/Living Positively.png"
+              src="/pics/mentoring.png"
               alt="Community"
               className="w-full h-full object-cover"
             />
@@ -291,7 +291,7 @@ export default function Home() {
               {[
                 { value: 800000, label: "Youth Reached", suffix: "+" },
                 { value: 110, label: "Schools Engaged", suffix: "+" },
-                { value: 60, label: "Women Empowered", suffix: "+" },
+                { value: 200, label: "Beneficiaries of Skils acquisition program", suffix: "+" },
                 { value: 1000000, label: "Campaign Reach", suffix: "+" },
               ].map((stat, index) => (
                 <motion.div
