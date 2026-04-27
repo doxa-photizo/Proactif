@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Navbar from '../Components/common/Navbar';
-import { MapPin, Mail } from 'lucide-react';
+import { MapPin, Mail, Phone } from 'lucide-react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -117,7 +117,11 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-[#0A192F]">Location</h3>
-                    <p className="text-gray-600 mt-1">Kumasi, Ghana</p>
+                    <p className="text-gray-600 mt-1">
+                      AH 10 Roughy Street, Kwadaso<br />
+                      AK-354-5555<br />
+                      Adjacent the Code Hotel
+                    </p>
                   </div>
                 </div>
 
@@ -130,8 +134,22 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-[#0A192F]">Email</h3>
-                    <p className="text-gray-600 mt-1">info@proactifglobal.org</p>
+                    <p className="text-gray-600 mt-1">proactifglobal@gmail.com</p>
                     <p className="text-sm text-gray-500 mt-1">We aim to respond within 24 hours.</p>
+                  </div>
+                </div>
+
+                {/* Phone */}
+                <div className="flex items-start space-x-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-red-50 text-[#E3000F]">
+                      <Phone size={24} />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-[#0A192F]">Phone</h3>
+                    <p className="text-gray-600 mt-1">+233 247 476 677</p>
+                    <p className="text-sm text-gray-500 mt-1">Available 9am to 6pm</p>
                   </div>
                 </div>
 

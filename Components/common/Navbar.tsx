@@ -37,9 +37,9 @@ const Navbar: React.FC = () => {
                 <div className="flex justify-between items-center h-20">
                     <Link href="/" className="flex items-center h-full py-2">
                         <img
-                            src="/pics/Proactif logo.png"
+                            src="/pics/Proactif Logo.png"
                             alt="ProActif Logo"
-                            className="h-70 w-auto object-contain"
+                            className="h-70 w-auto object-contain relative top-[12px] -left-[36px]"
                         />
                     </Link>
 

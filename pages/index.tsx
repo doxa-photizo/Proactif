@@ -89,7 +89,7 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
               >
-                Empowering Youth. Transforming Communities.
+                Equipping the Youth for Socio-economic Empowerment.
               </motion.h1>
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -97,9 +97,9 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.4 }}
                 className="text-xl text-red-100 mb-8 leading-relaxed"
               >
-                Building a healthier, more empowered future through sexual and
-                reproductive health advocacy, youth leadership, and community
-                development.
+                Equipping young people with the knowledge, practical skills,
+                and opportunities they need to achieve financial independence, make informed life choices,
+                and contribute meaningfully to sustainable community development.
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -139,8 +139,10 @@ export default function Home() {
                 About ProActif Global
               </h2>
               <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                We are driven by values that create safe spaces, break stigma, and empower
-                young people to live healthy, purposeful, and economically independent lives.
+                We are driven by values that create safe spaces, break stigma,
+                and empower young people to live healthy,
+                purposeful, and economically independent lives
+
               </p>
             </motion.div>
 

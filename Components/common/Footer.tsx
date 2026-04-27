@@ -51,15 +51,19 @@ const Footer: React.FC = () => {
                         <div className="space-y-3 text-sm">
                             <div className="flex items-start gap-2">
                                 <MapPin className="size-4 mt-0.5 flex-shrink-0" />
-                                <span>Kumasi, Ghana</span>
+                                <span>
+                                    AH 10 Roughy Street, Kwadaso<br />
+                                    AK-354-5555<br />
+                                    Adjacent the Code Hotel
+                                </span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Mail className="size-4 flex-shrink-0" />
-                                <span>info@proactifglobal.org</span>
+                                <span>proactifglobal@gmail.com</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Phone className="size-4 flex-shrink-0" />
-                                <span>+233 XX XXX XXXX</span>
+                                <span>+233 247 476 677</span>
                             </div>
                         </div>
                     </div>

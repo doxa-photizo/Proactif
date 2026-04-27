@@ -142,7 +142,7 @@ export default function Team() {
                 We're always looking for passionate individuals who share our vision of empowering youth and transforming communities.
               </p>
               <a
-                href="mailto:info@proactifglobal.org"
+                href="mailto:proactifglobal@gmail.com"
                 className="inline-block px-8 py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-all font-semibold"
               >
                 Get in Touch
