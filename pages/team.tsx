@@ -1,56 +1,72 @@
-import { motion } from "motion/react";
-import { Mail } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Mail, X } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa";
 import Head from "next/head";
 import Navbar from "../Components/common/Navbar";
 import Footer from "../Components/common/Footer";
 
 export default function Team() {
+  const [selectedMember, setSelectedMember] = useState<{
+    name: string;
+    role: string;
+    bio: string;
+    fullBio?: string[];
+    image: string;
+    email: string;
+  } | null>(null);
+
   const team = [
     {
       name: "Nathaniel Akwasi Oduro",
       role: "Executive Director",
-      bio: "Nathaniel provides strategic leadership and vision for the organisation’s mission. He holds a Master’s Degree in Finance and Investment from the University of Central Lancashire and brings a strong background in finance, business development, and organizational leadership from his time as Retail Business Head at Access Bank.",
+      bio: "Nathaniel Akwasi Oduro is the Executive Director of ProActif Global, providing strategic leadership and vision for the organisation’s mission to empower young people...",
+      fullBio: [
+        "Nathaniel Akwasi Oduro is the Executive Director of ProActif Global, providing strategic leadership and vision for the organisation’s mission to empower young people—particularly adolescent girls and young women—to make informed decisions about their health, livelihoods, and future.",
+        "He holds a Master’s Degree in Finance and Investment from the University of Central Lancashire, United Kingdom, and a Bachelor’s degree in Banking and Finance from Methodist University, Ghana. With a strong background in finance, business development, and organizational leadership, Nathaniel brings a results-oriented, impact-driven approach to managing development programs.",
+        "Before leading ProActif Global, he built a distinguished professional career across the banking and corporate sectors. He served as Retail Business Head at Access Bank Ghana, where he led strategic initiatives to drive growth and deepen customer engagement. He also worked as Branch Manager at Royal Winners Microfinance Ltd, overseeing operations and strengthening financial inclusion at the community level. Earlier in his career, he contributed to business expansion efforts as Marketing Manager at Innovation Creek.",
+        "Under his leadership, ProActif Global has expanded its reach and influence through innovative programs such as the Skills Acquisition Program (SAP), advocacy campaigns addressing HIV stigma and discrimination, and strategic partnerships with national and international stakeholders. Nathaniel is particularly passionate about integrating economic empowerment with sexual and reproductive health and rights (SRHR) education to ensure that young people are equipped not only with knowledge but also with practical opportunities to thrive."
+      ],
       image: "/pics/Nathaniel.png",
       email: "nathaniel@proactifglobal.org"
     },
     {
       name: "Anaba Blessing",
       role: "Programs Manager",
-      bio: "Anaba provides strategic oversight for the design, implementation, and evaluation of interventions. An alumna of the University for Development Studies, she applies her expertise in behavior change communication to shape responsive and inclusive programs.",
+      bio: "Anaba Blessing serves as the Programs Manager of ProActif Global, a role she has held since the beginning of the year, where she provides strategic oversight for the design, implementation...",
+      fullBio: [
+        "Anaba Blessing serves as the Programs Manager of ProActif Global, a role she has held since the beginning of the year, where she provides strategic oversight for the design, implementation, and evaluation of the organization’s interventions. She leads the coordination of youth-focused programs, ensuring that all initiatives are impactful, well-structured, and aligned with ProActif Global’s mission to empower young people and address critical issues such as HIV prevention and sexual and reproductive health and rights (SRHR).",
+        "An alumna of the University for Development Studies (UDS), Tamale, Blessing holds a degree in Social Change and Communication. Her academic training has equipped her with strong expertise in behavior change communication, community engagement, and advocacy, which she applies effectively in shaping responsive and inclusive programs that meet the needs of diverse communities.",
+        "In her role, Blessing oversees program planning, stakeholder engagement, and field implementation, while strengthening internal systems to enhance efficiency and accountability. Her progression from Administrator to Programs Manager reflects her dedication, leadership capacity, and consistent delivery of results, positioning her as a key driver of ProActif Global’s commitment to sustainable impact and community transformation."
+      ],
       image: "/pics/Anaba.png",
       email: "blessing.anaba@proactifglobal.org"
     },
     {
       name: "Baafi Michelle",
       role: "Administrator",
-      bio: "Baafi provides essential administrative leadership and operational support. Holding a BSc in Management Education from the University of Education, Winneba, she oversees day-to-day functions and supports program coordination to maintain efficient systems.",
+      bio: "Baafi Michelle serves as the Administrator of ProActif Global LBG, where she provides essential administrative leadership and operational support to ensure the effective delivery...",
+      fullBio: [
+        "Baafi Michelle serves as the Administrator of ProActif Global LBG, where she provides essential administrative leadership and operational support to ensure the effective delivery of the organization’s programs. She holds a BSc in Management Education from the University of Education, Winneba, equipping her with strong skills in management, organization, and institutional coordination.",
+        "She completed her National Service at the Kwadaso Municipal Assembly in the Revenue Department, where she gained practical experience in public sector administration, financial processes, and stakeholder engagement. In her current role, she oversees day-to-day administrative functions, supports program coordination, and contributes to maintaining efficient systems that drive ProActif Global’s impact.",
+        "Michelle is committed to excellence, accountability, and service, playing a vital role in advancing the organization’s mission of empowering young people and promoting sustainable development."
+      ],
       image: "/pics/Michelle.png",
       email: "michelle@proactifglobal.org"
     },
     {
       name: "Blessing Esi Bosomtwe",
       role: "SAP Coordinator",
-      bio: "Blessing plays a pivotal role in designing and strengthening youth empowerment initiatives like the Skills Acquisition Program. With a background in Statistics with Economics and entrepreneurial leadership, she brings a strong analytical foundation to program coordination.",
+      bio: "Blessing Esi Bosomtwe serves as the Skills Acquisition Program (SAP) Coordinator at ProActif Global, where she plays a pivotal role in designing, implementing, and strengthening youth...",
+      fullBio: [
+        "Blessing Esi Bosomtwe serves as the Skills Acquisition Program (SAP) Coordinator at ProActif Global, where she plays a pivotal role in designing, implementing, and strengthening youth empowerment initiatives. She holds a degree in Statistics with Economics from the University of Ghana, bringing a strong analytical and problem-solving foundation to her work in program coordination and impact-driven interventions.",
+        "Blessing gained valuable institutional experience through her internship and National Service at the Lands Commission, where she developed competencies in data management, administrative systems, and public sector operations. Before joining ProActif Global, she demonstrated entrepreneurial leadership as the Chief Executive Officer of Cake ‘n’ Bake, successfully managing business operations and building practical skills in enterprise development, customer engagement, and financial discipline.",
+        "In addition to her professional responsibilities, Blessing is actively engaged in community development. She serves as a member of the Women’s Committee during her National Service at the Kumasi Metropolitan Assembly, contributing to initiatives that promote women’s empowerment and social inclusion."
+      ],
       image: "/pics/Blessing.png",
       email: "blessing.esi@proactifglobal.org"
-    },
-    {
-      name: "Kelvin Boakye",
-      role: "ProActif Global Ambassador",
-      bio: "Kelvin is a dedicated volunteer and ProActif Global Ambassador at the Senior High School level. He plays a vital role in raising awareness, encouraging participation, and fostering positive conversations among his peers.",
-      image: "/pics/Kelvin.png",
-      email: "kelvin@proactifglobal.org"
-    },
-    {
-      name: "Community Mobilizers",
-      role: "Volunteers",
-      bio: "Our Community Mobilizers are the backbone of our grassroots initiatives. They work directly within communities to identify needs, mobilize participation, and ensure our programs reach those who need them most. Their dedication and local knowledge are essential to our success.",
-      image: "/pics/volunteer.jpeg",
-      email: "[EMAIL_ADDRESS]"
     }
   ];
-
 
   return (
     <>
@@ -90,7 +106,7 @@ export default function Team() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group"
+                  className="group flex flex-col"
                 >
                   <div className="relative mb-6 overflow-hidden rounded-2xl aspect-square">
                     <img
@@ -115,18 +131,85 @@ export default function Team() {
                       </div>
                     </div>
                   </div>
-                  <div>
+                  <div className="flex flex-col flex-grow">
                     <h3 className="text-3xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                    <div className="inline-block px-4 py-1 bg-gradient-to-r from-red-100 to-gray-100 rounded-full text-sm font-semibold text-red-700 mb-4">
+                    <div className="inline-block self-start px-4 py-1 bg-gradient-to-r from-red-100 to-gray-100 rounded-full text-sm font-semibold text-red-700 mb-4">
                       {member.role}
                     </div>
-                    <p className="text-gray-700 leading-relaxed">{member.bio}</p>
+                    <p className="text-gray-700 leading-relaxed mb-4 flex-grow">{member.bio}</p>
+                    {member.fullBio && (
+                      <button
+                        onClick={() => setSelectedMember(member)}
+                        className="text-red-600 font-semibold text-left flex items-center hover:text-red-800 transition-colors mt-auto"
+                      >
+                        Read more
+                      </button>
+                    )}
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
         </section>
+
+        {/* Modal for full bio */}
+        <AnimatePresence>
+          {selectedMember && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedMember(null)}
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col md:flex-row relative"
+              >
+                <button
+                  onClick={() => setSelectedMember(null)}
+                  className="absolute top-4 right-4 z-10 size-10 bg-black/10 hover:bg-black/20 rounded-full flex items-center justify-center transition-colors"
+                >
+                  <X className="size-5 text-gray-800" />
+                </button>
+                
+                <div className="w-full md:w-2/5 h-64 md:h-auto shrink-0 relative">
+                  <img 
+                    src={selectedMember.image} 
+                    alt={selectedMember.name} 
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </div>
+                
+                <div className="p-8 md:p-12 overflow-y-auto w-full">
+                  <h3 className="text-3xl font-bold text-gray-900 mb-2">{selectedMember.name}</h3>
+                  <div className="inline-block px-4 py-1 bg-red-100 rounded-full text-sm font-semibold text-red-700 mb-6">
+                    {selectedMember.role}
+                  </div>
+                  
+                  <div className="space-y-4 text-gray-700 leading-relaxed">
+                    {selectedMember.fullBio?.map((paragraph, idx) => (
+                      <p key={idx}>{paragraph}</p>
+                    ))}
+                  </div>
+
+                  <div className="mt-8 flex gap-4">
+                    <a
+                      href={`mailto:${selectedMember.email}`}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-medium"
+                    >
+                      <Mail className="size-4" />
+                      Email {selectedMember.name.split(" ")[0]}
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Join Our Team */}
         <section className="py-20 bg-gray-50">

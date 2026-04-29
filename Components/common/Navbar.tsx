@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
                         <img
                             src="/pics/Proactif Logo.png"
                             alt="ProActif Logo"
-                            className="h-70 w-auto object-contain relative top-[12px] -left-[36px]"
+                            className="h-50 w-auto object-contain relative top-[12px] -left-[36px]"
                         />
                     </Link>
 

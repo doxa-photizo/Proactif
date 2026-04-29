@@ -216,7 +216,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
                 {
                   title: "Sexual & Reproductive Health",
@@ -514,12 +514,13 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
               {[
-                { name: "NAP+ Ghana", image: "/pics/NAP+ Logo.png" },
-                { name: "Ghana AIDS Commission", image: null }, // Don't see an explicit AIDS commision logo, keep as text
+                { name: "GHANET", image: "/pics/Ghanet logo.png" },
+                { name: "Nap+ Ghana", image: "/pics/Nap+ logo.png" }, // Don't see an explicit AIDS commision logo, keep as text
                 { name: "UNFPA Ghana", image: "/pics/UNFPA.png" },
-                { name: "GNP+", image: null },
+                { name: "AfriYAN Ghana", image: "/pics/AfriYAN.jpeg" },
+                { name: "Y+Global", image: "/pics/Y Global.jpeg" },
               ].map((partner, index) => (
                 <motion.div
                   key={partner.name}
@@ -527,7 +528,7 @@ export default function Home() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="bg-white p-8 rounded-xl flex items-center justify-center h-32 hover:shadow-lg transition-shadow"
+                  className="bg-white p-3 rounded-xl flex items-center justify-center h-32 hover:shadow-lg transition-shadow"
                 >
                   {partner.image ? (
                     <img
