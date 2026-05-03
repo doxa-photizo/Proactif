@@ -151,7 +151,7 @@ export default function Home() {
                 {
                   title: "Our Mission",
                   description:
-                    "To empower young people through comprehensive sexual and reproductive health education, advocacy, and socio-economic development programs.",
+                    " To empower young people—particularly adolescents and young women—with the knowledge, skills, and opportunities needed to make informed decisions about their sexual and reproductive health while achieving socio-economic independence.",
                   icon: Heart,
                   bgColor: "bg-red-100",
                   iconColor: "text-red-600",
@@ -159,7 +159,7 @@ export default function Home() {
                 {
                   title: "Our Vision",
                   description:
-                    "A Ghana where every young person has access to quality health information, economic opportunities, and the power to shape their future.",
+                    "to build a society where young people are healthy, informed, empowered, and equipped to lead productive, purpose-driven lives free from stigma, inequality, and preventable health risks.",
                   icon: Sparkles,
                   bgColor: "bg-gray-100",
                   iconColor: "text-gray-600",
@@ -516,10 +516,10 @@ export default function Home() {
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
               {[
-                { name: "GHANET", image: "/pics/Ghanet logo.png" },
-                { name: "Nap+ Ghana", image: "/pics/Nap+ logo.png" }, // Don't see an explicit AIDS commision logo, keep as text
+                { name: "GHANET", image: "/pics/IMG_0371.png" },
+                { name: "Nap+ Ghana", image: "/pics/IMG_0375.png" }, // Don't see an explicit AIDS commision logo, keep as text
                 { name: "UNFPA Ghana", image: "/pics/UNFPA.png" },
-                { name: "AfriYAN Ghana", image: "/pics/AfriYAN.jpeg" },
+                { name: "AfriYAN Ghana", image: "/pics/affryan Logo.png" },
                 { name: "Y+Global", image: "/pics/Y Global.jpeg" },
               ].map((partner, index) => (
                 <motion.div

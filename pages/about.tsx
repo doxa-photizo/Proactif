@@ -45,13 +45,16 @@ export default function About() {
                 <h2 className="text-4xl font-bold text-gray-900 mb-6">Our Story</h2>
                 <div className="space-y-4 text-gray-700 leading-relaxed">
                   <p>
-                    ProActif Global LBG was founded in 2020 by a group of passionate young advocates who recognized the critical need for comprehensive sexual and reproductive health education in Ghana. What started as informal community conversations has grown into a registered non-governmental organization serving thousands of young people across the country.
+                    ProActif Global is a youth-focused civil society organization committed to empowering young people to make informed decisions about their sexual and reproductive health while building pathways for socio-economic independence. Founded on the belief that knowledge, opportunity, and agency are critical to transforming lives, the organization works at the intersection of health, education, and economic empowerment to address the real challenges facing young people—particularly adolescent girls and young women.
                   </p>
                   <p>
-                    Officially registered in 2022, we have quickly become a trusted voice in youth empowerment, working at the intersection of health, education, and economic development. Our approach is rooted in the belief that young people, when given the right information and opportunities, become powerful agents of change in their communities.
+                    Through innovative and community-driven approaches, ProActif Global delivers comprehensive sexuality education, stigma reduction campaigns, and skills development programmes that equip young people with practical tools for life. Its flagship Skills Acquisition Program integrates entrepreneurship and vocational training with sexual and reproductive health education, ensuring that beneficiaries are not only informed but also economically empowered. The organization also leverages digital platforms to run impactful campaigns that simplify complex health information, challenge harmful norms, and amplify youth voices.
                   </p>
                   <p>
-                    Today, we operate across multiple regions in Ghana, partnering with schools, community groups, and international organizations to deliver programs that address the real challenges young people face—from accessing quality health information to building economic independence.
+                    Collaboration remains central to ProActif Global’s work. The organization partners with institutions such as the Ghana AIDS Commission, UNFPA Ghana, NAP+ Ghana, GNP+, NAZ London, to design and implement interventions that are evidence-based, inclusive, and sustainable. By engaging communities, schools, and key stakeholders, ProActif fosters supportive environments that promote dignity, reduce stigma, and encourage positive health-seeking behaviours.
+                  </p>
+                  <p>
+                    Guided by its core values of Inclusivity, Integrity, Continuous Improvement, Collaboration, and Empowerment, ProActif Global is building a future where young people are informed, resilient, and equipped to lead healthy, productive, and purpose-driven lives.
                   </p>
                 </div>
               </motion.div>
@@ -98,7 +101,7 @@ export default function About() {
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Mission</h2>
                 <p className="text-gray-700 leading-relaxed">
-                  To empower young people through comprehensive sexual and reproductive health education, socio-economic development programs, and advocacy that creates lasting positive change in their lives and communities. We are committed to breaking down barriers, challenging stigma, and ensuring every young person has access to the information and opportunities they need to thrive.
+                  To empower young people—particularly adolescents and young women—with the knowledge, skills, and opportunities needed to make informed decisions about their sexual and reproductive health while achieving socio-economic independence.
                 </p>
               </motion.div>
 
@@ -114,7 +117,7 @@ export default function About() {
                 </div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Vision</h2>
                 <p className="text-gray-700 leading-relaxed">
-                  A Ghana where every young person, regardless of their background, has access to quality sexual and reproductive health information, economic opportunities, and the power to make informed decisions about their future. We envision communities where youth are not just participants but leaders driving sustainable development and social change.
+                  To build a society where young people are healthy, informed, empowered, and equipped to lead productive, purpose-driven lives free from stigma, inequality, and preventable health risks.
                 </p>
               </motion.div>
             </div>
