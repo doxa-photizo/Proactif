@@ -516,8 +516,8 @@ export default function Home() {
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
               {[
-                { name: "GHANET", image: "/pics/IMG_0371.png" },
-                { name: "Nap+ Ghana", image: "/pics/IMG_0375.png" }, // Don't see an explicit AIDS commision logo, keep as text
+                { name: "GHANET", image: "/pics/abc.png" },
+                { name: "Nap+ Ghana", image: "/pics/def.png" }, // Don't see an explicit AIDS commision logo, keep as text
                 { name: "UNFPA Ghana", image: "/pics/UNFPA.png" },
                 { name: "AfriYAN Ghana", image: "/pics/affryan Logo.png" },
                 { name: "Y+Global", image: "/pics/Y Global.jpeg" },
