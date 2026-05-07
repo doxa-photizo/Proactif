@@ -516,10 +516,10 @@ export default function Home() {
 
             <div className="grid grid-cols-2 md:grid-cols-5 gap-8 items-center">
               {[
-                { name: "GHANET", image: "/pics/abc.png" },
-                { name: "Nap+ Ghana", image: "/pics/def.png" }, // Don't see an explicit AIDS commision logo, keep as text
+                { name: "GHANET", image: "/pics/abc.PNG" },//MAKE THIS LOGO BIGGER
+                { name: "Nap+ Ghana", image: "/pics/def.PNG" },
                 { name: "UNFPA Ghana", image: "/pics/UNFPA.png" },
-                { name: "AfriYAN Ghana", image: "/pics/affryan Logo.png" },
+                { name: "AfriYAN Ghana", image: "/pics/affryan Logo.png" },//MAKE THIS BIGGER TOO
                 { name: "Y+Global", image: "/pics/Y Global.jpeg" },
               ].map((partner, index) => (
                 <motion.div
