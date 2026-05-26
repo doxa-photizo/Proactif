@@ -5,6 +5,7 @@ import { FaLinkedin } from "react-icons/fa";
 import Head from "next/head";
 import Navbar from "../Components/common/Navbar";
 import Footer from "../Components/common/Footer";
+import image from "next/image";
 
 export default function Team() {
   const [selectedMember, setSelectedMember] = useState<{
@@ -40,19 +41,19 @@ export default function Team() {
         "In her role, Blessing oversees program planning, stakeholder engagement, and field implementation, while strengthening internal systems to enhance efficiency and accountability. Her progression from Administrator to Programs Manager reflects her dedication, leadership capacity, and consistent delivery of results, positioning her as a key driver of ProActif Global’s commitment to sustainable impact and community transformation."
       ],
       image: "/pics/Anaba.png",
-      email: "blessing.anaba@proactifglobal.org"
+      email: "[EMAIL_ADDRESS]"
     },
     {
-      name: "Baafi Michelle",
+      name: "Benedicta Mensah",
       role: "Administrator",
-      bio: "Baafi Michelle serves as the Administrator of ProActif Global LBG, where she provides essential administrative leadership and operational support to ensure the effective delivery...",
+      bio: "Benedicta Mensah serves as the Administrator of ProActif Global LBG, where she provides essential administrative leadership and operational support to ensure the effective delivery...",
       fullBio: [
-        "Baafi Michelle serves as the Administrator of ProActif Global LBG, where she provides essential administrative leadership and operational support to ensure the effective delivery of the organization’s programs. She holds a BSc in Management Education from the University of Education, Winneba, equipping her with strong skills in management, organization, and institutional coordination.",
-        "She completed her National Service at the Kwadaso Municipal Assembly in the Revenue Department, where she gained practical experience in public sector administration, financial processes, and stakeholder engagement. In her current role, she oversees day-to-day administrative functions, supports program coordination, and contributes to maintaining efficient systems that drive ProActif Global’s impact.",
-        "Michelle is committed to excellence, accountability, and service, playing a vital role in advancing the organization’s mission of empowering young people and promoting sustainable development."
+        "Benedicta Mensah is a dedicated young professional and emerging development practitioner with a strong academic background in governance and public administration. She is a graduate of University of Education, Winneba, where she studied Political Science, equipping her with knowledge in leadership, public policy, governance systems, and community development. Her academic journey reflects her passion for social impact, youth empowerment, and institutional growth.",
+        "Currently serving as the Administrator of ProActif Global, Benedicta plays a critical role in the coordination and management of the organization’s administrative operations and programs. Her commitment to professionalism, organizational efficiency, and teamwork has contributed significantly to the smooth implementation of ProActif Global’s interventions, particularly those focused on youth empowerment, sexual and reproductive health rights, skills development, and community engagement.",
+        "Prior to joining ProActif Global in a full-time capacity, Benedicta undertook her National Service at the Kwadaso Municipal Assembly, where she served as an Organizer for the Revenue Department. In this role, she supported revenue mobilization activities, stakeholder engagement, and administrative coordination within the Assembly. Her experience in local governance and public administration has strengthened her capacity to work effectively within both public and civil society institutions, positioning her as a promising young leader committed to national development and social transformation."
       ],
-      image: "/pics/Michelle.png",
-      email: "michelle@proactifglobal.org"
+      image: "/pics/benedicta.jpeg",
+      email: "[EMAIL_ADDRESS]"
     },
     {
       name: "Blessing Esi Bosomtwe",
@@ -175,21 +176,21 @@ export default function Team() {
                 >
                   <X className="size-5 text-gray-800" />
                 </button>
-                
+
                 <div className="w-full md:w-2/5 h-64 md:h-auto shrink-0 relative">
-                  <img 
-                    src={selectedMember.image} 
-                    alt={selectedMember.name} 
+                  <img
+                    src={selectedMember.image}
+                    alt={selectedMember.name}
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
-                
+
                 <div className="p-8 md:p-12 overflow-y-auto w-full">
                   <h3 className="text-3xl font-bold text-gray-900 mb-2">{selectedMember.name}</h3>
                   <div className="inline-block px-4 py-1 bg-red-100 rounded-full text-sm font-semibold text-red-700 mb-6">
                     {selectedMember.role}
                   </div>
-                  
+
                   <div className="space-y-4 text-gray-700 leading-relaxed">
                     {selectedMember.fullBio?.map((paragraph, idx) => (
                       <p key={idx}>{paragraph}</p>
