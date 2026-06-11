@@ -56,16 +56,15 @@ export default function Team() {
       email: "[EMAIL_ADDRESS]"
     },
     {
-      name: "Blessing Esi Bosomtwe",
-      role: "SAP Coordinator",
-      bio: "Blessing Esi Bosomtwe serves as the Skills Acquisition Program (SAP) Coordinator at ProActif Global, where she plays a pivotal role in designing, implementing, and strengthening youth...",
+      name: "Azumah Collins",
+      role: "Finance Officer",
+      bio: "Azumah Collins is a dedicated finance and administrative professional with a strong background in accounting, financial management, procurement, and statutory...",
       fullBio: [
-        "Blessing Esi Bosomtwe serves as the Skills Acquisition Program (SAP) Coordinator at ProActif Global, where she plays a pivotal role in designing, implementing, and strengthening youth empowerment initiatives. She holds a degree in Statistics with Economics from the University of Ghana, bringing a strong analytical and problem-solving foundation to her work in program coordination and impact-driven interventions.",
-        "Blessing gained valuable institutional experience through her internship and National Service at the Lands Commission, where she developed competencies in data management, administrative systems, and public sector operations. Before joining ProActif Global, she demonstrated entrepreneurial leadership as the Chief Executive Officer of Cake ‘n’ Bake, successfully managing business operations and building practical skills in enterprise development, customer engagement, and financial discipline.",
-        "In addition to her professional responsibilities, Blessing is actively engaged in community development. She serves as a member of the Women’s Committee during her National Service at the Kumasi Metropolitan Assembly, contributing to initiatives that promote women’s empowerment and social inclusion."
+        "Azumah Collins is a dedicated finance and administrative professional with a strong background in accounting, financial management, procurement, and statutory compliance. He holds a degree from the University of Education, Winneba, and is currently pursuing the Level Two Professional Qualification of the Institute of Chartered Accountants, Ghana. Throughout his career, he has demonstrated exceptional attention to detail, analytical competence, and a commitment to accountability, earning recognition as Best Administrative Staff at Little Angels Academy in Kumasi. His expertise spans financial reporting, budget preparation and monitoring, tax administration, bank reconciliation, inventory management, and procurement oversight.",
+        "For the past eighteen months, Azumah has served as the Finance Officer of ProActif Global, where he has played a pivotal role in strengthening the organization’s financial systems and ensuring compliance with donor and regulatory requirements. He provides strategic financial oversight, maintains accurate financial records, supports project budgeting and reporting, and contributes to the efficient management of organizational resources. Beyond his technical competencies, Azumah is known for his integrity, teamwork, and dedication to supporting ProActif Global’s mission of empowering young people and advancing social development initiatives across Ghana. His blend of financial expertise and commitment to community impact makes him a valuable asset to the organization."
       ],
-      image: "/pics/Blessing.png",
-      email: "blessing.esi@proactifglobal.org"
+      image: "/pics/collins.jpeg",
+      email: "[EMAIL_ADDRESS]"
     }
   ];
 
@@ -109,11 +108,17 @@ export default function Team() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="group flex flex-col"
                 >
-                  <div className="relative mb-6 overflow-hidden rounded-2xl aspect-square">
+                  <div className={`relative mb-6 overflow-hidden rounded-2xl aspect-square ${
+                    member.name === "Azumah Collins" ? "bg-[#b8b6b4]" : ""
+                  }`}>
                     <img
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className={`w-full h-full transition-transform duration-500 ${
+                        member.name === "Azumah Collins"
+                          ? "object-cover object-[center_10%] scale-90"
+                          : "object-cover group-hover:scale-105"
+                      }`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
                       <div className="flex gap-3">
@@ -177,11 +182,17 @@ export default function Team() {
                   <X className="size-5 text-gray-800" />
                 </button>
 
-                <div className="w-full md:w-2/5 h-64 md:h-auto shrink-0 relative">
+                <div className={`w-full md:w-2/5 h-64 md:h-auto shrink-0 relative ${
+                  selectedMember.name === "Azumah Collins" ? "bg-[#b8b6b4]" : ""
+                }`}>
                   <img
                     src={selectedMember.image}
                     alt={selectedMember.name}
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className={`absolute inset-0 w-full h-full ${
+                      selectedMember.name === "Azumah Collins"
+                        ? "object-cover object-[center_10%] scale-90"
+                        : "object-cover"
+                    }`}
                   />
                 </div>
 

@@ -74,16 +74,40 @@ const Footer: React.FC = () => {
                         © 2026 ProActif Global LBG. All rights reserved.
                     </p>
                     <div className="flex gap-4">
-                        <a href="#" className="hover:text-red-400 transition-colors">
+                        <a
+                            href="https://www.facebook.com/proactif.global/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-red-400 transition-colors"
+                            aria-label="Facebook"
+                        >
                             <FaFacebook className="size-5" />
                         </a>
-                        <a href="#" className="hover:text-red-400 transition-colors">
+                        <a
+                            href="https://x.com/ProActif_Global"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-red-400 transition-colors"
+                            aria-label="Twitter / X"
+                        >
                             <FaTwitter className="size-5" />
                         </a>
-                        <a href="#" className="hover:text-red-400 transition-colors">
+                        <a
+                            href="https://www.instagram.com/proactif_global/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-red-400 transition-colors"
+                            aria-label="Instagram"
+                        >
                             <FaInstagram className="size-5" />
                         </a>
-                        <a href="#" className="hover:text-red-400 transition-colors">
+                        <a
+                            href="https://www.linkedin.com/company/proactif-ghana/?originalSubdomain=gh"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:text-red-400 transition-colors"
+                            aria-label="LinkedIn"
+                        >
                             <FaLinkedin className="size-5" />
                         </a>
                     </div>
