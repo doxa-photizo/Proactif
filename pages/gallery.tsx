@@ -10,16 +10,16 @@ interface GalleryItem {
   src: string;
   title: string;
   description: string;
-  category: "Outreaches" | "Skills Training" | "Campaigns" | "Community";
+  category: "Outreach" | "Skill Training" | "Campaign" | "Community";
   date: string;
 }
 
-const galleryItems: GalleryItem[] = [
+const defaultGalleryItems: GalleryItem[] = [
   {
     id: "1",
     src: "/pics/518226923_1053274810205884_6026172535522266822_n.jpg.jpeg",
     title: "Auntie Olivia Interactive Sessions",
-    category: "Campaigns",
+    category: "Campaign",
     date: "May 2026",
     description: "One of our lively interactive sessions hosted by Auntie Olivia, translating critical HIV prevention and statistics data into accessible conversations for youth."
   },
@@ -27,7 +27,7 @@ const galleryItems: GalleryItem[] = [
     id: "2",
     src: "/pics/513339070_1045077647692267_2937331783500375861_n.jpg.jpeg",
     title: "Youth Outreach and Advocacy Program",
-    category: "Outreaches",
+    category: "Outreach",
     date: "April 2026",
     description: "Our dedicated advocacy team interacting with members of the community during a sexual and reproductive health rights (SRHR) outreach campaign."
   },
@@ -35,7 +35,7 @@ const galleryItems: GalleryItem[] = [
     id: "3",
     src: "/pics/512622255_1045077861025579_6316323764039927434_n.jpg.jpeg",
     title: "Advocacy Discussion in Community Space",
-    category: "Outreaches",
+    category: "Outreach",
     date: "April 2026",
     description: "Engaging local youth in discussions regarding reproductive health rights, stigma reduction, and access to wellness resources."
   },
@@ -43,7 +43,7 @@ const galleryItems: GalleryItem[] = [
     id: "4",
     src: "/pics/499568633_1041522131381152_1360240325143299074_n.jpg.jpeg",
     title: "Hyɛ Fa YƆ Condom Activation",
-    category: "Campaigns",
+    category: "Campaign",
     date: "February 2026",
     description: "Community organizers presenting resources and materials for our flagship Hyɛ Fa YƆ condom activation program to reduce STIs and unplanned pregnancies."
   },
@@ -59,7 +59,7 @@ const galleryItems: GalleryItem[] = [
     id: "6",
     src: "/pics/491354364_1000158678850831_7794252359931159666_n.jpg.jpeg",
     title: "In-School Educational Campaign",
-    category: "Outreaches",
+    category: "Outreach",
     date: "December 2025",
     description: "Delivering important health and advocacy education to junior high and high school students to raise awareness on reproductive health."
   },
@@ -67,7 +67,7 @@ const galleryItems: GalleryItem[] = [
     id: "7",
     src: "/pics/483062697_966365055563527_7572722531427655458_n.jpg.jpeg",
     title: "Hands-on Skills Workshop",
-    category: "Skills Training",
+    category: "Skill Training",
     date: "November 2025",
     description: "Providing training to young women under the Skills Acquisition Program (SAP) to promote economic independence and career development."
   },
@@ -75,7 +75,7 @@ const galleryItems: GalleryItem[] = [
     id: "8",
     src: "/pics/482197166_966366308896735_5985049562207227629_n.jpg.jpeg",
     title: "Socio-Economic Mentorship Seminar",
-    category: "Skills Training",
+    category: "Skill Training",
     date: "October 2025",
     description: "Vocational coaches and educators offering mentorship and sharing entrepreneurship insights with our project beneficiaries."
   },
@@ -91,7 +91,7 @@ const galleryItems: GalleryItem[] = [
     id: "10",
     src: "/pics/481991141_966367578896608_3932129211364578454_n.jpg.jpeg",
     title: "Myth Busters Public Launch",
-    category: "Campaigns",
+    category: "Campaign",
     date: "September 2025",
     description: "The public launch of the Myth Busters Campaign, bringing awareness to correct common misconceptions surrounding HIV and transmission routes."
   },
@@ -99,7 +99,7 @@ const galleryItems: GalleryItem[] = [
     id: "11",
     src: "/pics/476979939_948122450721121_8783551046445758990_n.jpg.jpeg",
     title: "Community Distribution Drive",
-    category: "Outreaches",
+    category: "Outreach",
     date: "August 2025",
     description: "Organizing and packing materials for a health distribution drive, delivering items directly to marginalized communities."
   },
@@ -115,7 +115,7 @@ const galleryItems: GalleryItem[] = [
     id: "13",
     src: "/pics/skill acquire.jpeg",
     title: "Tailoring and Fashion Design Class",
-    category: "Skills Training",
+    category: "Skill Training",
     date: "June 2025",
     description: "Participants learning dressmaking and fashion design as part of their vocational track in the Skills Acquisition Program (SAP)."
   },
@@ -123,7 +123,7 @@ const galleryItems: GalleryItem[] = [
     id: "14",
     src: "/pics/drinks productions.jpeg",
     title: "Beverage and Food Production Session",
-    category: "Skills Training",
+    category: "Skill Training",
     date: "May 2025",
     description: "Women learning food processing and beverage production techniques to start small-scale retail and catering businesses."
   },
@@ -131,7 +131,7 @@ const galleryItems: GalleryItem[] = [
     id: "15",
     src: "/pics/condoms.jpeg",
     title: "Safer Sex Awareness Materials",
-    category: "Campaigns",
+    category: "Campaign",
     date: "April 2025",
     description: "Educational brochures and resources organized for the Hyɛ Fa YƆ activation to help reduce HIV transmission rate."
   },
@@ -155,22 +155,40 @@ const galleryItems: GalleryItem[] = [
     id: "18",
     src: "/pics/Outreaches.png",
     title: "Regional Health Outreach Planning",
-    category: "Outreaches",
+    category: "Outreach",
     date: "November 2024",
     description: "Planning and implementing healthcare resource distribution to youth in underserved municipalities."
   }
 ];
 
-const categories = ["All", "Outreaches", "Skills Training", "Campaigns", "Community"] as const;
+const categories = ["All", "Outreach", "Skill Training", "Campaign", "Community"] as const;
 type CategoryType = typeof categories[number];
+
+const STORAGE_KEY = "proactif_gallery_items";
 
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<CategoryType>("All");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [items, setItems] = useState<GalleryItem[]>(defaultGalleryItems);
+
+  // Sync with localStorage (admin-managed data)
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as GalleryItem[];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setItems(parsed);
+        }
+      }
+    } catch {
+      // Fallback to defaults silently
+    }
+  }, []);
 
   const filteredItems = activeCategory === "All"
-    ? galleryItems
-    : galleryItems.filter((item) => item.category === activeCategory);
+    ? items
+    : items.filter((item) => item.category === activeCategory);
 
   // Keyboard navigation for lightbox modal
   useEffect(() => {

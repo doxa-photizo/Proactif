@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { 
   LayoutDashboard, 
   MessageSquare, 
+  Image,
   Calendar, 
   Users, 
   LogOut 
@@ -23,6 +24,12 @@ export default function AdminSidebar() {
       icon: MessageSquare,
       href: "/admin/submissions",
       active: router.pathname === "/admin/submissions",
+    },
+    {
+      name: "Gallery",
+      icon: Image,
+      href: "/admin/gallery",
+      active: router.pathname === "/admin/gallery",
     },
     {
       name: "Programs / Events",
