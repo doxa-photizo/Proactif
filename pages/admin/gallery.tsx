@@ -1,184 +1,23 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useRouter } from 'next/router';
 import AdminLayout from '../../Components/admin/AdminLayout';
-import { 
-  Upload, Plus, Search, Pencil, Trash2, X, ImageIcon, 
-  Calendar, Tag, MoreVertical, AlertTriangle, FolderOpen
+import {
+  Upload, Plus, Search, Pencil, Trash2, X, ImageIcon,
+  Calendar, MoreVertical, AlertTriangle, FolderOpen, Loader2, LogOut, AlertCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { supabase } from '../../lib/supabase';
+import { galleryApi, GalleryItem } from '../../lib/api';
 
 // ─── Types ──────────────────────────────────────────────────────────────────────
-interface GalleryItem {
-  id: string;
-  src: string;
-  title: string;
-  description: string;
-  category: "Outreach" | "Skill Training" | "Campaign" | "Community";
-  date: string;
-}
-
 type CategoryFilter = "All Gallery" | "Outreach" | "Campaign" | "Community" | "Skill Training";
 const CATEGORIES: CategoryFilter[] = ["All Gallery", "Outreach", "Campaign", "Community", "Skill Training"];
 const UPLOAD_CATEGORIES: GalleryItem["category"][] = ["Outreach", "Campaign", "Community", "Skill Training"];
-
-const STORAGE_KEY = "proactif_gallery_items";
-
-// ─── Default gallery items (same as public gallery page) ────────────────────
-const defaultGalleryItems: GalleryItem[] = [
-  {
-    id: "1",
-    src: "/pics/518226923_1053274810205884_6026172535522266822_n.jpg.jpeg",
-    title: "Auntie Olivia Interactive Sessions",
-    category: "Campaign",
-    date: "May 2026",
-    description: "One of our lively interactive sessions hosted by Auntie Olivia, translating critical HIV prevention and statistics data into accessible conversations for youth."
-  },
-  {
-    id: "2",
-    src: "/pics/513339070_1045077647692267_2937331783500375861_n.jpg.jpeg",
-    title: "Youth Outreach and Advocacy Program",
-    category: "Outreach",
-    date: "April 2026",
-    description: "Our dedicated advocacy team interacting with members of the community during a sexual and reproductive health rights (SRHR) outreach campaign."
-  },
-  {
-    id: "3",
-    src: "/pics/512622255_1045077861025579_6316323764039927434_n.jpg.jpeg",
-    title: "Advocacy Discussion in Community Space",
-    category: "Outreach",
-    date: "April 2026",
-    description: "Engaging local youth in discussions regarding reproductive health rights, stigma reduction, and access to wellness resources."
-  },
-  {
-    id: "4",
-    src: "/pics/499568633_1041522131381152_1360240325143299074_n.jpg.jpeg",
-    title: "Hyɛ Fa YƆ Condom Activation",
-    category: "Campaign",
-    date: "February 2026",
-    description: "Community organizers presenting resources and materials for our flagship Hyɛ Fa YƆ condom activation program to reduce STIs and unplanned pregnancies."
-  },
-  {
-    id: "5",
-    src: "/pics/493276356_1000158738850825_8837086453588687174_n.jpg.jpeg",
-    title: "Peer Support Session",
-    category: "Community",
-    date: "January 2026",
-    description: "Facilitators guiding a peer support group discussion, encouraging participants to open up in a safe and supportive space."
-  },
-  {
-    id: "6",
-    src: "/pics/491354364_1000158678850831_7794252359931159666_n.jpg.jpeg",
-    title: "In-School Educational Campaign",
-    category: "Outreach",
-    date: "December 2025",
-    description: "Delivering important health and advocacy education to junior high and high school students to raise awareness on reproductive health."
-  },
-  {
-    id: "7",
-    src: "/pics/483062697_966365055563527_7572722531427655458_n.jpg.jpeg",
-    title: "Hands-on Skills Workshop",
-    category: "Skill Training",
-    date: "November 2025",
-    description: "Providing training to young women under the Skills Acquisition Program (SAP) to promote economic independence and career development."
-  },
-  {
-    id: "8",
-    src: "/pics/482197166_966366308896735_5985049562207227629_n.jpg.jpeg",
-    title: "Socio-Economic Mentorship Seminar",
-    category: "Skill Training",
-    date: "October 2025",
-    description: "Vocational coaches and educators offering mentorship and sharing entrepreneurship insights with our project beneficiaries."
-  },
-  {
-    id: "9",
-    src: "/pics/482022501_966365645563468_5816751096030092575_n.jpg.jpeg",
-    title: "Volunteer Capacity Training",
-    category: "Community",
-    date: "October 2025",
-    description: "Building capacity and preparation skills for our passionate community health advocates and volunteer organizers."
-  },
-  {
-    id: "10",
-    src: "/pics/481991141_966367578896608_3932129211364578454_n.jpg.jpeg",
-    title: "Myth Busters Public Launch",
-    category: "Campaign",
-    date: "September 2025",
-    description: "The public launch of the Myth Busters Campaign, bringing awareness to correct common misconceptions surrounding HIV and transmission routes."
-  },
-  {
-    id: "11",
-    src: "/pics/476979939_948122450721121_8783551046445758990_n.jpg.jpeg",
-    title: "Community Distribution Drive",
-    category: "Outreach",
-    date: "August 2025",
-    description: "Organizing and packing materials for a health distribution drive, delivering items directly to marginalized communities."
-  },
-  {
-    id: "12",
-    src: "/pics/orientation.jpeg",
-    title: "Volunteer Orientation and Team Alignment",
-    category: "Community",
-    date: "July 2025",
-    description: "A gathering of volunteers and team leaders aligning goals for the upcoming community engagement schedules."
-  },
-  {
-    id: "13",
-    src: "/pics/skill acquire.jpeg",
-    title: "Tailoring and Fashion Design Class",
-    category: "Skill Training",
-    date: "June 2025",
-    description: "Participants learning dressmaking and fashion design as part of their vocational track in the Skills Acquisition Program (SAP)."
-  },
-  {
-    id: "14",
-    src: "/pics/drinks productions.jpeg",
-    title: "Beverage and Food Production Session",
-    category: "Skill Training",
-    date: "May 2025",
-    description: "Women learning food processing and beverage production techniques to start small-scale retail and catering businesses."
-  },
-  {
-    id: "15",
-    src: "/pics/condoms.jpeg",
-    title: "Safer Sex Awareness Materials",
-    category: "Campaign",
-    date: "April 2025",
-    description: "Educational brochures and resources organized for the Hyɛ Fa YƆ activation to help reduce HIV transmission rate."
-  },
-  {
-    id: "16",
-    src: "/pics/Volunteer.jpeg",
-    title: "Our Community Outreach Volunteers",
-    category: "Community",
-    date: "March 2025",
-    description: "Our dedicated group of volunteer peer educators posing at the start of a regional community health outreach."
-  },
-  {
-    id: "17",
-    src: "/pics/mentoring.png",
-    title: "Mentorship and Leadership Program",
-    category: "Community",
-    date: "January 2025",
-    description: "A collaborative mentorship session for young leaders, focused on building self-esteem and decision-making capacities."
-  },
-  {
-    id: "18",
-    src: "/pics/Outreaches.png",
-    title: "Regional Health Outreach Planning",
-    category: "Outreach",
-    date: "November 2024",
-    description: "Planning and implementing healthcare resource distribution to youth in underserved municipalities."
-  }
-];
 
 // ─── Helper: Generate current month/year string ─────────────────────────────
 function getCurrentMonthYear(): string {
   const now = new Date();
   return now.toLocaleDateString("en-US", { month: "long", year: "numeric" });
-}
-
-// ─── Helper: Generate unique ID ─────────────────────────────────────────────
-function generateId(): string {
-  return `img-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
 }
 
 // ─── Category Badge Color Map ───────────────────────────────────────────────
@@ -193,6 +32,8 @@ const categoryColors: Record<GalleryItem["category"], { bg: string; text: string
 //  MAIN COMPONENT
 // ═════════════════════════════════════════════════════════════════════════════
 export default function AdminGallery() {
+  const router = useRouter();
+
   // ── State ───────────────────────────────────────────────────────────────
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
   const [activeFilter, setActiveFilter] = useState<CategoryFilter>("All Gallery");
@@ -205,7 +46,7 @@ export default function AdminGallery() {
   const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
   const [deletingItem, setDeletingItem] = useState<GalleryItem | null>(null);
 
-  // Active action menu (for the 3-dot menu on cards)
+  // Action menu on cards
   const [activeMenuId, setActiveMenuId] = useState<string | null>(null);
 
   // Upload form state
@@ -216,34 +57,43 @@ export default function AdminGallery() {
   const [formImagePreview, setFormImagePreview] = useState<string | null>(null);
   const [formImageUrl, setFormImageUrl] = useState("");
   const [uploadMode, setUploadMode] = useState<"file" | "url">("file");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // ── Load from localStorage on mount ─────────────────────────────────────
+  // Async operation states
+  const [isSaving, setIsSaving] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
+  // ── Auth guard: redirect to login if no session ──────────────────────────
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as GalleryItem[];
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setGalleryItems(parsed);
-          setIsLoaded(true);
-          return;
-        }
+    supabase.auth.getSession().then(({ data }) => {
+      if (!data.session) {
+        router.replace('/admin');
+      } else {
+        loadGallery();
       }
-    } catch {
-      // fall through
-    }
-    // Initialize with defaults
-    setGalleryItems(defaultGalleryItems);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultGalleryItems));
-    setIsLoaded(true);
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ── Persist to localStorage whenever items change ───────────────────────
-  const persistItems = useCallback((items: GalleryItem[]) => {
-    setGalleryItems(items);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  }, []);
+  // ── Load gallery from API ────────────────────────────────────────────────
+  async function loadGallery() {
+    try {
+      const items = await galleryApi.getAll();
+      setGalleryItems(items);
+    } catch {
+      setApiError("Failed to load gallery items. Check your connection.");
+    } finally {
+      setIsLoaded(true);
+    }
+  }
+
+  // ── Sign out ─────────────────────────────────────────────────────────────
+  async function handleSignOut() {
+    await supabase.auth.signOut();
+    router.push('/admin');
+  }
 
   // ── Close menu when clicking outside ────────────────────────────────────
   useEffect(() => {
@@ -282,7 +132,10 @@ export default function AdminGallery() {
     setFormImagePreview(null);
     setFormImageUrl("");
     setUploadMode("file");
+    setSelectedFile(null);
     setEditingItem(null);
+    setApiError(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   }
 
   function openUploadModal() {
@@ -296,16 +149,11 @@ export default function AdminGallery() {
     setFormCategory(item.category);
     setFormDescription(item.description);
     setFormDate(item.date);
-    // Detect if the src is a URL or base64
-    if (item.src.startsWith("data:") || item.src.startsWith("/")) {
-      setFormImagePreview(item.src);
-      setUploadMode("file");
-      setFormImageUrl("");
-    } else {
-      setFormImageUrl(item.src);
-      setUploadMode("url");
-      setFormImagePreview(null);
-    }
+    setFormImagePreview(item.src);
+    setUploadMode("file");
+    setFormImageUrl("");
+    setSelectedFile(null);
+    setApiError(null);
     setShowUploadModal(true);
     setActiveMenuId(null);
   }
@@ -319,6 +167,7 @@ export default function AdminGallery() {
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    setSelectedFile(file);
     const reader = new FileReader();
     reader.onloadend = () => {
       setFormImagePreview(reader.result as string);
@@ -326,56 +175,73 @@ export default function AdminGallery() {
     reader.readAsDataURL(file);
   }
 
-  function handleSave() {
-    const imageSrc =
-      uploadMode === "url" ? formImageUrl : formImagePreview;
-    if (!imageSrc || !formTitle.trim()) return;
+  async function handleSave() {
+    setApiError(null);
+    setIsSaving(true);
 
-    if (editingItem) {
-      // Update existing
-      const updated = galleryItems.map((item) =>
-        item.id === editingItem.id
-          ? {
-              ...item,
-              src: imageSrc,
-              title: formTitle.trim(),
-              category: formCategory,
-              description: formDescription.trim(),
-              date: formDate,
-            }
-          : item
-      );
-      persistItems(updated);
-    } else {
-      // Create new
-      const newItem: GalleryItem = {
-        id: generateId(),
+    try {
+      let imageSrc = uploadMode === "url" ? formImageUrl : formImagePreview;
+      let storagePath: string | null = editingItem?.storage_path ?? null;
+
+      // If a new file was selected, upload it first
+      if (uploadMode === "file" && selectedFile) {
+        const uploaded = await galleryApi.uploadImage(selectedFile);
+        imageSrc = uploaded.url;
+        storagePath = uploaded.storage_path;
+      }
+
+      if (!imageSrc || !formTitle.trim()) return;
+
+      const payload = {
         src: imageSrc,
+        storage_path: storagePath,
         title: formTitle.trim(),
         category: formCategory,
         description: formDescription.trim(),
         date: formDate,
+        sort_order: editingItem?.sort_order ?? galleryItems.length + 1,
       };
-      persistItems([newItem, ...galleryItems]);
+
+      if (editingItem) {
+        const updated = await galleryApi.update(editingItem.id, payload);
+        setGalleryItems((prev) =>
+          prev.map((item) => (item.id === editingItem.id ? updated : item))
+        );
+      } else {
+        const created = await galleryApi.create(payload);
+        setGalleryItems((prev) => [created, ...prev]);
+      }
+
+      setShowUploadModal(false);
+      resetForm();
+    } catch (err: unknown) {
+      setApiError(err instanceof Error ? err.message : "Save failed. Please try again.");
+    } finally {
+      setIsSaving(false);
     }
-    setShowUploadModal(false);
-    resetForm();
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     if (!deletingItem) return;
-    const updated = galleryItems.filter((item) => item.id !== deletingItem.id);
-    persistItems(updated);
-    setShowDeleteModal(false);
-    setDeletingItem(null);
+    setIsDeleting(true);
+    try {
+      await galleryApi.delete(deletingItem.id);
+      setGalleryItems((prev) => prev.filter((item) => item.id !== deletingItem.id));
+      setShowDeleteModal(false);
+      setDeletingItem(null);
+    } catch (err: unknown) {
+      setApiError(err instanceof Error ? err.message : "Delete failed. Please try again.");
+    } finally {
+      setIsDeleting(false);
+    }
   }
 
-  // Don't render until localStorage is loaded to avoid hydration mismatch
+  // Don't render until initial load completes
   if (!isLoaded) {
     return (
       <AdminLayout title="Gallery Management | ProActif Global">
         <div className="flex items-center justify-center min-h-[60vh]">
-          <div className="size-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin" />
+          <Loader2 className="size-8 border-red-600 animate-spin text-red-600" />
         </div>
       </AdminLayout>
     );
@@ -394,14 +260,34 @@ export default function AdminGallery() {
             Manage and organize gallery images displayed on the website.
           </p>
         </div>
-        <button
-          onClick={openUploadModal}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-red-700 active:bg-red-800 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-        >
-          <Plus className="size-4" />
-          Upload Image
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleSignOut}
+            className="inline-flex items-center gap-2 px-4 py-2.5 bg-white text-gray-600 text-sm font-medium rounded-lg border border-gray-200 hover:border-red-400 hover:text-red-600 transition-colors"
+          >
+            <LogOut className="size-4" />
+            Sign out
+          </button>
+          <button
+            onClick={openUploadModal}
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-red-600 text-white text-sm font-semibold rounded-lg shadow-sm hover:bg-red-700 active:bg-red-800 transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+          >
+            <Plus className="size-4" />
+            Upload Image
+          </button>
+        </div>
       </div>
+
+      {/* ── Global API error banner ─────────────────────────────────────── */}
+      {apiError && !showUploadModal && !showDeleteModal && (
+        <div className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-xl mb-6">
+          <AlertCircle className="size-5 text-red-600 mt-0.5 shrink-0" />
+          <p className="text-sm text-red-700">{apiError}</p>
+          <button onClick={() => setApiError(null)} className="ml-auto text-red-400 hover:text-red-600">
+            <X className="size-4" />
+          </button>
+        </div>
+      )}
 
       {/* ── Stats Cards ────────────────────────────────────────────────── */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
@@ -514,7 +400,7 @@ export default function AdminGallery() {
                     {/* Hover overlay */}
                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
 
-                    {/* Category Badge on image */}
+                    {/* Category Badge */}
                     <div className="absolute top-3 left-3">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${colors.bg} ${colors.text}`}>
                         {item.category}
@@ -533,7 +419,7 @@ export default function AdminGallery() {
                         <MoreVertical className="size-4 text-gray-700" />
                       </button>
 
-                      {/* Dropdown Menu */}
+                      {/* Dropdown */}
                       <AnimatePresence>
                         {activeMenuId === item.id && (
                           <motion.div
@@ -644,6 +530,14 @@ export default function AdminGallery() {
 
               {/* Modal Body */}
               <div className="px-6 py-5 space-y-5">
+                {/* API error inside modal */}
+                {apiError && (
+                  <div className="flex items-start gap-3 p-3.5 bg-red-50 border border-red-200 rounded-lg">
+                    <AlertCircle className="size-5 text-red-600 mt-0.5 shrink-0" />
+                    <p className="text-sm text-red-700">{apiError}</p>
+                  </div>
+                )}
+
                 {/* Image Source Toggle */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Image Source</label>
@@ -691,12 +585,18 @@ export default function AdminGallery() {
                         <button
                           onClick={() => {
                             setFormImagePreview(null);
+                            setSelectedFile(null);
                             if (fileInputRef.current) fileInputRef.current.value = "";
                           }}
                           className="absolute top-2 right-2 size-7 bg-white/90 rounded-full flex items-center justify-center shadow-sm hover:bg-white transition-colors"
                         >
                           <X className="size-4 text-gray-600" />
                         </button>
+                        {selectedFile && (
+                          <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/60 text-white text-xs rounded-md">
+                            New file selected — will upload on save
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <button
@@ -793,21 +693,32 @@ export default function AdminGallery() {
               <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-gray-100 bg-gray-50 rounded-b-2xl">
                 <button
                   onClick={() => { setShowUploadModal(false); resetForm(); }}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  disabled={isSaving}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSave}
                   disabled={
+                    isSaving ||
                     !formTitle.trim() ||
                     (uploadMode === "file" && !formImagePreview) ||
                     (uploadMode === "url" && !formImageUrl.trim())
                   }
                   className="px-5 py-2 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center gap-2"
                 >
-                  <Upload className="size-4" />
-                  {editingItem ? "Save Changes" : "Upload Image"}
+                  {isSaving ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" />
+                      Saving…
+                    </>
+                  ) : (
+                    <>
+                      <Upload className="size-4" />
+                      {editingItem ? "Save Changes" : "Upload Image"}
+                    </>
+                  )}
                 </button>
               </div>
             </motion.div>
@@ -844,20 +755,34 @@ export default function AdminGallery() {
                   You are about to delete <strong className="text-gray-700">&ldquo;{deletingItem.title}&rdquo;</strong>.
                 </p>
                 <p className="text-sm text-red-500 font-medium">This action cannot be undone.</p>
+                {apiError && (
+                  <p className="mt-3 text-sm text-red-600 bg-red-50 rounded-lg p-2">{apiError}</p>
+                )}
               </div>
               <div className="flex items-center gap-3 px-6 py-4 bg-gray-50 border-t border-gray-100">
                 <button
-                  onClick={() => { setShowDeleteModal(false); setDeletingItem(null); }}
-                  className="flex-1 px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  onClick={() => { setShowDeleteModal(false); setDeletingItem(null); setApiError(null); }}
+                  disabled={isDeleting}
+                  className="flex-1 px-4 py-2.5 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors inline-flex items-center justify-center gap-2"
+                  disabled={isDeleting}
+                  className="flex-1 px-4 py-2.5 text-sm font-semibold text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors inline-flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  <Trash2 className="size-4" />
-                  Delete
+                  {isDeleting ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" />
+                      Deleting…
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 className="size-4" />
+                      Delete
+                    </>
+                  )}
                 </button>
               </div>
             </motion.div>

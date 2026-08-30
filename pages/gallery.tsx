@@ -1,27 +1,24 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { X, ChevronLeft, ChevronRight, Calendar, Tag, Maximize2 } from "lucide-react";
+import { X, ChevronLeft, ChevronRight, Calendar, Tag, Maximize2, Loader2 } from "lucide-react";
 import Head from "next/head";
 import Navbar from "../Components/common/Navbar";
 import Footer from "../Components/common/Footer";
+import { galleryApi, GalleryItem } from "../lib/api";
 
-interface GalleryItem {
-  id: string;
-  src: string;
-  title: string;
-  description: string;
-  category: "Outreach" | "Skill Training" | "Campaign" | "Community";
-  date: string;
-}
-
-const defaultGalleryItems: GalleryItem[] = [
+// Fallback items shown if the API is unreachable
+const fallbackItems: GalleryItem[] = [
   {
     id: "1",
     src: "/pics/518226923_1053274810205884_6026172535522266822_n.jpg.jpeg",
     title: "Auntie Olivia Interactive Sessions",
     category: "Campaign",
     date: "May 2026",
-    description: "One of our lively interactive sessions hosted by Auntie Olivia, translating critical HIV prevention and statistics data into accessible conversations for youth."
+    description: "One of our lively interactive sessions hosted by Auntie Olivia, translating critical HIV prevention and statistics data into accessible conversations for youth.",
+    storage_path: null,
+    sort_order: 1,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "2",
@@ -29,7 +26,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Youth Outreach and Advocacy Program",
     category: "Outreach",
     date: "April 2026",
-    description: "Our dedicated advocacy team interacting with members of the community during a sexual and reproductive health rights (SRHR) outreach campaign."
+    description: "Our dedicated advocacy team interacting with members of the community during a sexual and reproductive health rights (SRHR) outreach campaign.",
+    storage_path: null,
+    sort_order: 2,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "3",
@@ -37,7 +38,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Advocacy Discussion in Community Space",
     category: "Outreach",
     date: "April 2026",
-    description: "Engaging local youth in discussions regarding reproductive health rights, stigma reduction, and access to wellness resources."
+    description: "Engaging local youth in discussions regarding reproductive health rights, stigma reduction, and access to wellness resources.",
+    storage_path: null,
+    sort_order: 3,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "4",
@@ -45,7 +50,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Hyɛ Fa YƆ Condom Activation",
     category: "Campaign",
     date: "February 2026",
-    description: "Community organizers presenting resources and materials for our flagship Hyɛ Fa YƆ condom activation program to reduce STIs and unplanned pregnancies."
+    description: "Community organizers presenting resources and materials for our flagship Hyɛ Fa YƆ condom activation program to reduce STIs and unplanned pregnancies.",
+    storage_path: null,
+    sort_order: 4,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "5",
@@ -53,7 +62,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Peer Support Session",
     category: "Community",
     date: "January 2026",
-    description: "Facilitators guiding a peer support group discussion, encouraging participants to open up in a safe and supportive space."
+    description: "Facilitators guiding a peer support group discussion, encouraging participants to open up in a safe and supportive space.",
+    storage_path: null,
+    sort_order: 5,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "6",
@@ -61,7 +74,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "In-School Educational Campaign",
     category: "Outreach",
     date: "December 2025",
-    description: "Delivering important health and advocacy education to junior high and high school students to raise awareness on reproductive health."
+    description: "Delivering important health and advocacy education to junior high and high school students to raise awareness on reproductive health.",
+    storage_path: null,
+    sort_order: 6,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "7",
@@ -69,7 +86,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Hands-on Skills Workshop",
     category: "Skill Training",
     date: "November 2025",
-    description: "Providing training to young women under the Skills Acquisition Program (SAP) to promote economic independence and career development."
+    description: "Providing training to young women under the Skills Acquisition Program (SAP) to promote economic independence and career development.",
+    storage_path: null,
+    sort_order: 7,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "8",
@@ -77,7 +98,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Socio-Economic Mentorship Seminar",
     category: "Skill Training",
     date: "October 2025",
-    description: "Vocational coaches and educators offering mentorship and sharing entrepreneurship insights with our project beneficiaries."
+    description: "Vocational coaches and educators offering mentorship and sharing entrepreneurship insights with our project beneficiaries.",
+    storage_path: null,
+    sort_order: 8,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "9",
@@ -85,7 +110,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Volunteer Capacity Training",
     category: "Community",
     date: "October 2025",
-    description: "Building capacity and preparation skills for our passionate community health advocates and volunteer organizers."
+    description: "Building capacity and preparation skills for our passionate community health advocates and volunteer organizers.",
+    storage_path: null,
+    sort_order: 9,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "10",
@@ -93,7 +122,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Myth Busters Public Launch",
     category: "Campaign",
     date: "September 2025",
-    description: "The public launch of the Myth Busters Campaign, bringing awareness to correct common misconceptions surrounding HIV and transmission routes."
+    description: "The public launch of the Myth Busters Campaign, bringing awareness to correct common misconceptions surrounding HIV and transmission routes.",
+    storage_path: null,
+    sort_order: 10,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "11",
@@ -101,7 +134,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Community Distribution Drive",
     category: "Outreach",
     date: "August 2025",
-    description: "Organizing and packing materials for a health distribution drive, delivering items directly to marginalized communities."
+    description: "Organizing and packing materials for a health distribution drive, delivering items directly to marginalized communities.",
+    storage_path: null,
+    sort_order: 11,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "12",
@@ -109,7 +146,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Volunteer Orientation and Team Alignment",
     category: "Community",
     date: "July 2025",
-    description: "A gathering of volunteers and team leaders aligning goals for the upcoming community engagement schedules."
+    description: "A gathering of volunteers and team leaders aligning goals for the upcoming community engagement schedules.",
+    storage_path: null,
+    sort_order: 12,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "13",
@@ -117,7 +158,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Tailoring and Fashion Design Class",
     category: "Skill Training",
     date: "June 2025",
-    description: "Participants learning dressmaking and fashion design as part of their vocational track in the Skills Acquisition Program (SAP)."
+    description: "Participants learning dressmaking and fashion design as part of their vocational track in the Skills Acquisition Program (SAP).",
+    storage_path: null,
+    sort_order: 13,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "14",
@@ -125,7 +170,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Beverage and Food Production Session",
     category: "Skill Training",
     date: "May 2025",
-    description: "Women learning food processing and beverage production techniques to start small-scale retail and catering businesses."
+    description: "Women learning food processing and beverage production techniques to start small-scale retail and catering businesses.",
+    storage_path: null,
+    sort_order: 14,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "15",
@@ -133,7 +182,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Safer Sex Awareness Materials",
     category: "Campaign",
     date: "April 2025",
-    description: "Educational brochures and resources organized for the Hyɛ Fa YƆ activation to help reduce HIV transmission rate."
+    description: "Educational brochures and resources organized for the Hyɛ Fa YƆ activation to help reduce HIV transmission rate.",
+    storage_path: null,
+    sort_order: 15,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "16",
@@ -141,7 +194,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Our Community Outreach Volunteers",
     category: "Community",
     date: "March 2025",
-    description: "Our dedicated group of volunteer peer educators posing at the start of a regional community health outreach."
+    description: "Our dedicated group of volunteer peer educators posing at the start of a regional community health outreach.",
+    storage_path: null,
+    sort_order: 16,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "17",
@@ -149,7 +206,11 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Mentorship and Leadership Program",
     category: "Community",
     date: "January 2025",
-    description: "A collaborative mentorship session for young leaders, focused on building self-esteem and decision-making capacities."
+    description: "A collaborative mentorship session for young leaders, focused on building self-esteem and decision-making capacities.",
+    storage_path: null,
+    sort_order: 17,
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "18",
@@ -157,33 +218,30 @@ const defaultGalleryItems: GalleryItem[] = [
     title: "Regional Health Outreach Planning",
     category: "Outreach",
     date: "November 2024",
-    description: "Planning and implementing healthcare resource distribution to youth in underserved municipalities."
-  }
+    description: "Planning and implementing healthcare resource distribution to youth in underserved municipalities.",
+    storage_path: null,
+    sort_order: 18,
+    created_at: "",
+    updated_at: "",
+  },
 ];
 
 const categories = ["All", "Outreach", "Skill Training", "Campaign", "Community"] as const;
 type CategoryType = typeof categories[number];
 
-const STORAGE_KEY = "proactif_gallery_items";
-
 export default function Gallery() {
   const [activeCategory, setActiveCategory] = useState<CategoryType>("All");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
-  const [items, setItems] = useState<GalleryItem[]>(defaultGalleryItems);
+  const [items, setItems] = useState<GalleryItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Sync with localStorage (admin-managed data)
+  // Fetch gallery items from the FastAPI backend
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as GalleryItem[];
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setItems(parsed);
-        }
-      }
-    } catch {
-      // Fallback to defaults silently
-    }
+    galleryApi
+      .getAll()
+      .then(setItems)
+      .catch(() => setItems(fallbackItems))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const filteredItems = activeCategory === "All"
@@ -264,63 +322,71 @@ export default function Gallery() {
         {/* Photo Grid Section */}
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              layout
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              <AnimatePresence mode="popLayout">
-                {filteredItems.map((item, idx) => (
-                  <motion.div
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.4 }}
-                    key={item.id}
-                    className="group relative cursor-pointer overflow-hidden rounded-2xl bg-gray-100 shadow-md hover:shadow-xl transition-all duration-300 aspect-[4/3] flex flex-col justify-end"
-                    onClick={() => setLightboxIndex(idx)}
-                  >
-                    <img
-                      src={item.src}
-                      alt={item.title}
-                      className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent opacity-75 group-hover:opacity-90 transition-opacity duration-300" />
-
-                    {/* Content Layer */}
-                    <div className="relative p-6 z-10 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="px-2.5 py-0.5 bg-red-600/90 rounded-full text-xs font-semibold uppercase tracking-wider">
-                          {item.category}
-                        </span>
-                        <span className="text-xs text-gray-300 flex items-center gap-1 font-medium">
-                          <Calendar className="size-3" />
-                          {item.date}
-                        </span>
-                      </div>
-                      <h3 className="text-lg font-bold line-clamp-1 mb-1 group-hover:text-red-400 transition-colors">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs text-gray-300 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-
-                    {/* Maximize Icon */}
-                    <div className="absolute top-4 right-4 z-20 size-10 bg-black/40 backdrop-blur-[2px] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <Maximize2 className="size-4 text-white" />
-                    </div>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </motion.div>
-
-            {filteredItems.length === 0 && (
-              <div className="text-center py-20">
-                <p className="text-lg text-gray-500">No images found in this category.</p>
+            {isLoading ? (
+              <div className="flex justify-center items-center py-32">
+                <Loader2 className="size-10 text-red-600 animate-spin" />
               </div>
+            ) : (
+              <>
+                <motion.div
+                  layout
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+                >
+                  <AnimatePresence mode="popLayout">
+                    {filteredItems.map((item, idx) => (
+                      <motion.div
+                        layout
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        transition={{ duration: 0.4 }}
+                        key={item.id}
+                        className="group relative cursor-pointer overflow-hidden rounded-2xl bg-gray-100 shadow-md hover:shadow-xl transition-all duration-300 aspect-[4/3] flex flex-col justify-end"
+                        onClick={() => setLightboxIndex(idx)}
+                      >
+                        <img
+                          src={item.src}
+                          alt={item.title}
+                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+
+                        {/* Gradient Overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent opacity-75 group-hover:opacity-90 transition-opacity duration-300" />
+
+                        {/* Content Layer */}
+                        <div className="relative p-6 z-10 text-white transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                          <div className="flex items-center gap-2 mb-2">
+                            <span className="px-2.5 py-0.5 bg-red-600/90 rounded-full text-xs font-semibold uppercase tracking-wider">
+                              {item.category}
+                            </span>
+                            <span className="text-xs text-gray-300 flex items-center gap-1 font-medium">
+                              <Calendar className="size-3" />
+                              {item.date}
+                            </span>
+                          </div>
+                          <h3 className="text-lg font-bold line-clamp-1 mb-1 group-hover:text-red-400 transition-colors">
+                            {item.title}
+                          </h3>
+                          <p className="text-xs text-gray-300 line-clamp-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 leading-relaxed">
+                            {item.description}
+                          </p>
+                        </div>
+
+                        {/* Maximize Icon */}
+                        <div className="absolute top-4 right-4 z-20 size-10 bg-black/40 backdrop-blur-[2px] rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                          <Maximize2 className="size-4 text-white" />
+                        </div>
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </motion.div>
+
+                {filteredItems.length === 0 && (
+                  <div className="text-center py-20">
+                    <p className="text-lg text-gray-500">No images found in this category.</p>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </section>
